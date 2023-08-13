@@ -1,9 +1,10 @@
 package commitmentParser
 
-import {
+import (
 	"encoding/csv"
 	"log"
-}
+	"os"
+)
 
 func GetParsedCSV(string filepath) []map[string]string {
 	return parseCSV(filepath)
