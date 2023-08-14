@@ -8,12 +8,13 @@ import (
 	"strings"
 )
 
-func GetParsedCSV(filepath string) []map[string]string {
+func GetParsedCSV(filepath string) (data map[string]map[string]string, keys []string) {
 	return parseCSV(filepath)
 }
 
-func parseCSV(filepath string) []map[string]string {
-	output := make([]map[string]string, 0)
+func parseCSV(filepath string) (data map[string]map[string]string, keys []string) {
+	data = make(map[string]map[string]string)
+	keys = make([]string, 0)
 	inFile, err := os.Open(filepath)
 	if err != nil {
 		log.Println(err)
@@ -84,11 +85,13 @@ func parseCSV(filepath string) []map[string]string {
 		//column AK blank
 		temp["moneyInSpreadsheet"] = in[37]
 
-		output = append(output, temp)
+		key := temp["applicantLast"] + temp["applicantFirst"] + temp["s1First"]
+		data[key] = temp
+		keys = append(keys, key)
 
 	}
 
-	return output
+	return data, keys
 }
 
 func splitName(in string) []string {
