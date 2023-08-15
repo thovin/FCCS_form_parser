@@ -10,6 +10,7 @@ import (
 
 func GetParsedCSV(filepath string) (data map[string]map[string]string, keys []string) {
 	return parseCSV(filepath)
+	// return parseCSV("C:/Temp/FCCS Re-commitment Form (Responses) - Form Responses 1.csv") //TODO testing
 }
 
 func parseCSV(filepath string) (data map[string]map[string]string, keys []string) {
@@ -20,6 +21,7 @@ func parseCSV(filepath string) (data map[string]map[string]string, keys []string
 		log.Println(err)
 	}
 	r := csv.NewReader(inFile) //TODO add header functionality?
+	// r.Read()                   //TODO temp header fix
 
 	for {
 		in, err := r.Read()
@@ -45,7 +47,7 @@ func parseCSV(filepath string) (data map[string]map[string]string, keys []string
 		temp["state"] = in[8]
 		temp["zip"] = in[9]
 		temp["phoneNumber"] = in[10]
-		temp["Employer"] = in[11]
+		temp["employer"] = in[11]
 		temp["workPhone"] = in[12]
 		temp["workSchedule"] = in[13]
 		temp["church"] = in[14]
@@ -91,13 +93,16 @@ func parseCSV(filepath string) (data map[string]map[string]string, keys []string
 
 	}
 
+	log.Println(data[keys[0]])
+	log.Println("keys: ")
+	log.Println(keys)
 	return data, keys
 }
 
 func splitName(in string) []string {
-	output := make([]string, 3) //TODO syntax?
+	output := make([]string, 3)
 
-	temp := strings.Split(in, "") //TODO does empty string work, or does it need to be a space?
+	temp := strings.Split(in, " ")
 	output[0] = temp[0]
 
 	if len(temp) == 3 {
@@ -106,10 +111,12 @@ func splitName(in string) []string {
 	} else if len(temp) == 2 {
 		output[2] = temp[1]
 	} else if len(temp) == 0 || len(temp) == 1 {
+		log.Println(temp)
 		log.Println("Name empty or singular")
 	} else if len(temp) > 3 {
+		log.Println(temp)
 		log.Println("Name has 4 or more fields")
 	}
 
-	return output //TODO is default middle name correctly empty string?
+	return output
 }
