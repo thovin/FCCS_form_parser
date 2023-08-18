@@ -1,4 +1,5 @@
-package familySheetPopulator
+// package familySheetPopulator
+package main
 
 import (
 	"encoding/csv"
@@ -8,93 +9,71 @@ import (
 	"sort"
 )
 
-var INFILE = "filepath"  //TODO
-var OUTPATH = "filepath" //TODO
+var INFILE = "C:/Temp/FCCS Re-commitment Form (Responses) - Form Responses 1.csv" //TODO
+var OUTPATH = "C:/Temp"                                                           //TODO
 var OUTFILENAME = "family_roster.csv"
 
-func Main() {
-
+func main() {
+	writeCSV(getFormInput())
 }
 
-func writeCSV(in []map[string]string) { //TODO merge with old info?
+func writeCSV(input map[string]map[string]string, keys []string) { //TODO merge with old info?
 	outFile, err := os.Create(OUTPATH + "/" + OUTFILENAME)
 	if err != nil {
 		log.Println(err)
 	}
-	w = csv.NewWriter(outFile)
-	input, keys := getFormInput()
+	w := csv.NewWriter(outFile)
+	// input, keys := getFormInput()
 	sort.Strings(keys)
-	falsey = "FILL ME"
+	falsey := ""
 
 	for _, key := range keys {
-		data := make([]string, len(input[row])) //TODO right length since different columns?
-		data := make([]string, 34)              //TODO temp
+		// data := make([]string, len(input[key])) //TODO right length since different columns?
+		data := make([]string, 35) //TODO temp
 		row := input[key]
 
 		//TODO I hate that this is brittle, but I don't know a better way
 		data[0] = row["applicantLast"]
 		data[1] = row["applicantFirst"]
-		data[2] = row["spouse"]  //TODO did not parse spouse name in input, change?
-		data[3] = falsey         //enrollment status
-		data[4] = row["s1First"] //first or full name for students?
-		data[5] = row["s1grade"]
-		data[6] = row["s2First"]
-		data[7] = row["s2grade"]
-		data[8] = row["s3First"]
-		data[9] = row["s3grade"]
-		data[10] = row["s4First"]
-		data[11] = row["s4grade"]
-		data[12] = falsey //5th child on families sheet, not on input form
-		data[13] = falsey //^
-		data[14] = row["streetAddress"]
-		data[15] = row["city"]
-		data[16] = row["state"]
-		data[17] = row["zip"]
-		data[18] = row["phoneNumber"]
-		data[19] = row["spouseNumber"]
-		data[20] = row["email"]
-		data[21] = row["church"]
-		data[22] = falsey //school district
-		data[23] = falsey //checked for new
-		data[24] = falsey //records request
-		data[25] = falsey //records recieved
-		data[26] = falsey //church school
-		data[27] = falsey //notes
-		data[28] = falsey //withdrawal date
-		data[29] = falsey //1st quarter
-		data[30] = falsey //2nd quarter
-		data[31] = falsey //3rd quarter
-		data[32] = falsey //4th quarter
-		data[33] = falsey //attendance
-		data[34] = falsey //end of quarter contact w/ first
-		// data[35] = row[""]
-		// data[36] = row[""]
-		// data[37] = row[""]
-		// data[38] = row[""]
-		// data[39] = row[""]
-		// data[40] = row[""]
-		// data[41] = row[""]
-		// data[42] = row[""]
-		// data[43] = row[""]
-		// data[44] = row[""]
-		// data[45] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
-		// data[] = row[""]
+		data[2] = row["spouse"] //TODO did not parse spouse name in input, change?
+		data[3] = falsey        //enrollment status
+		data[4] = row["volunteerAreas"]
+		data[5] = row["preferredPayment"]
+		data[6] = row["email"]
+		data[7] = row["phoneNumber"]
+		data[8] = row["spouseNumber"]
+		data[9] = row["s1First"] + " " + row["s1Last"]
+		data[10] = row["s1grade"]
+		data[11] = row["s1health"]
+		data[12] = row["s2First"] + " " + row["s2Last"]
+		data[13] = row["s2grade"]
+		data[14] = row["s2health"]
+		data[15] = row["s3First"] + " " + row["s3Last"]
+		data[16] = row["s3grade"]
+		data[17] = row["s3health"]
+		data[18] = row["s4First"] + " " + row["s4Last"]
+		data[19] = row["s4grade"]
+		data[20] = row["s4health"]
+		data[21] = "" //5th child on families sheet, not on input form
+		data[22] = "" //^
+		data[23] = "" //^
+		data[24] = row["streetAddress"]
+		data[25] = row["city"]
+		data[26] = row["state"]
+		data[27] = row["zip"]
+		data[28] = row["church"]
+		data[29] = falsey //school district
+		data[30] = falsey //records request
+		data[31] = falsey //records received
+		data[32] = falsey //church school enrollment sent
+		data[33] = falsey //withdrawal date
+		data[34] = falsey //1st quarter
+		data[35] = falsey //2nd quarter
+		data[36] = falsey //3rd quarter
+		data[37] = falsey //4th quarter
+		data[38] = falsey //attendance
+		data[39] = row["faithResponse"]
+		data[40] = row["policyResponse"]
 
 		if err := w.Write(data); err != nil {
 			log.Println(err)

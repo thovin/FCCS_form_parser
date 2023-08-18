@@ -93,9 +93,9 @@ func parseCSV(filepath string) (data map[string]map[string]string, keys []string
 
 	}
 
-	log.Println(data[keys[0]])
-	log.Println("keys: ")
-	log.Println(keys)
+	// log.Println(data[keys[0]])
+	// log.Println("keys: ")
+	// log.Println(keys)
 	return data, keys
 }
 
@@ -111,11 +111,11 @@ func splitName(in string) []string {
 	} else if len(temp) == 2 {
 		output[2] = temp[1]
 	} else if len(temp) == 0 || len(temp) == 1 {
-		log.Println(temp)
-		log.Println("Name empty or singular")
+		// log.Println(temp)	//TODO put back when done testing
+		// log.Println("Name empty or singular")
 	} else if len(temp) > 3 {
-		log.Println(temp)
-		log.Println("Name has 4 or more fields")
+		// log.Println(temp)
+		// log.Println("Name has 4 or more fields")
 	}
 
 	return output
