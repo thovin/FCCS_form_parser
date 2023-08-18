@@ -17,19 +17,17 @@ func main() {
 	writeCSV(getFormInput())
 }
 
-func writeCSV(input map[string]map[string]string, keys []string) { //TODO merge with old info?
+func writeCSV(input map[string]map[string]string, keys []string) {
 	outFile, err := os.Create(OUTPATH + "/" + OUTFILENAME)
 	if err != nil {
 		log.Println(err)
 	}
 	w := csv.NewWriter(outFile)
-	// input, keys := getFormInput()
 	sort.Strings(keys)
 	falsey := ""
 
 	for _, key := range keys {
-		// data := make([]string, len(input[key])) //TODO right length since different columns?
-		data := make([]string, 35) //TODO temp
+		data := make([]string, 41)
 		row := input[key]
 
 		//TODO I hate that this is brittle, but I don't know a better way
@@ -92,5 +90,5 @@ func writeCSV(input map[string]map[string]string, keys []string) { //TODO merge 
 }
 
 func getFormInput() (data map[string]map[string]string, keys []string) {
-	return commitmentParser.GetParsedCSV(INFILE) //TODO am I calling the right thing? Package name or file?
+	return commitmentParser.GetParsedCSV(INFILE)
 }
